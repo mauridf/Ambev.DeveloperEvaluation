@@ -27,7 +27,15 @@ public class Program
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Ambev DeveloperEvaluation API",
+                    Version = "v1"
+                });
+            });
+
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
@@ -51,6 +59,10 @@ public class Program
             });
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+            builder.Services.AddControllers().AddApplicationPart(typeof(Program).Assembly);
+            builder.Services.AddScoped<DefaultContext>();
+
 
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
