@@ -17,10 +17,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<List<Sale>> GetAllAsync() => await _context.Sales.Include(s => s.Items).ToListAsync();
 
-        public async Task AddAsync(Sale sale)
+        public async Task<Sale> AddAsync(Sale sale)
         {
-            await _context.Sales.AddAsync(sale);
+            _context.Sales.Add(sale);
             await _context.SaveChangesAsync();
+            return sale; // Retorna a venda criada
         }
 
         public async Task UpdateAsync(Sale sale)
