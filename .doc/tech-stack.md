@@ -17,15 +17,9 @@ Testing:
 - **xUnit**: A free, open source, community-focused unit testing tool for the .NET Framework.
   - Git: https://github.com/xunit/xunit
 
-Frontend:
-- **Angular**: A platform for building mobile and desktop web applications.
-  - Git: https://github.com/angular/angular
-
-Databases:
+Database:
 - **PostgreSQL**: A powerful, open source object-relational database system.
   - Git: https://github.com/postgres/postgres
-- **MongoDB**: A general purpose, document-based, distributed database.
-  - Git: https://github.com/mongodb/mongo
 
 <div style="display: flex; justify-content: space-between;">
   <a href="./overview.md">Previous: Tech Stack</a>

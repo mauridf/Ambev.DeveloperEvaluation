@@ -1,220 +1,129 @@
 [Back to README](../README.md)
 
-### Users
+# Users API
 
-#### GET /users
-- Description: Retrieve a list of all users
-- Query Parameters:
-  - `_page` (optional): Page number for pagination (default: 1)
-  - `_size` (optional): Number of items per page (default: 10)
-  - `_order` (optional): Ordering of results (e.g., "username asc, email desc")
-- Response: 
+## Create User
+
+### POST /api/users
+- **Description:** Creates a new user.
+
+#### Request Body:
+```json
+{
+  "username": "string",
+  "email": "string",
+  "password": "string"
+}
+```
+
+#### Responses:
+- **201 Created** (User created successfully)
   ```json
   {
-    "data": [
+    "success": true,
+    "message": "User created successfully",
+    "data": {
+      "id": "guid",
+      "username": "string",
+      "email": "string"
+    }
+  }
+  ```
+- **400 Bad Request** (Validation errors)
+  ```json
+  {
+    "errors": [
       {
-        "id": "integer",
-        "email": "string",
-        "username": "string",
-        "password": "string",
-        "name": {
-          "firstname": "string",
-          "lastname": "string"
-        },
-        "address": {
-          "city": "string",
-          "street": "string",
-          "number": "integer",
-          "zipcode": "string",
-          "geolocation": {
-            "lat": "string",
-            "long": "string"
-          }
-        },
-        "phone": "string",
-        "status": "string (enum: Active, Inactive, Suspended)",
-        "role": "string (enum: Customer, Manager, Admin)"
+        "property": "string",
+        "message": "Validation error message"
       }
-    ],
-    "totalItems": "integer",
-    "currentPage": "integer",
-    "totalPages": "integer"
+    ]
   }
   ```
 
-#### POST /users
-- Description: Add a new user
-- Request Body:
+---
+
+## Get User by ID
+
+### GET /api/users/{id}
+- **Description:** Retrieves a user by their ID.
+
+#### Path Parameters:
+- `id` (GUID) - The unique identifier of the user.
+
+#### Responses:
+- **200 OK** (User retrieved successfully)
   ```json
   {
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
-      }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
+    "success": true,
+    "message": "User retrieved successfully",
+    "data": {
+      "id": "guid",
+      "username": "string",
+      "email": "string"
+    }
   }
   ```
-- Response: 
+- **400 Bad Request** (Validation errors)
   ```json
   {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
+    "errors": [
+      {
+        "property": "string",
+        "message": "Validation error message"
       }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
+    ]
+  }
+  ```
+- **404 Not Found** (User not found)
+  ```json
+  {
+    "success": false,
+    "message": "User not found"
   }
   ```
 
-#### GET /users/{id}
-- Description: Retrieve a specific user by ID
-- Path Parameters:
-  - `id`: User ID
-- Response: 
+---
+
+## Delete User
+
+### DELETE /api/users/{id}
+- **Description:** Deletes a user by their ID.
+
+#### Path Parameters:
+- `id` (GUID) - The unique identifier of the user to delete.
+
+#### Responses:
+- **200 OK** (User deleted successfully)
   ```json
   {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
+    "success": true,
+    "message": "User deleted successfully"
+  }
+  ```
+- **400 Bad Request** (Validation errors)
+  ```json
+  {
+    "errors": [
+      {
+        "property": "string",
+        "message": "Validation error message"
       }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
+    ]
+  }
+  ```
+- **404 Not Found** (User not found)
+  ```json
+  {
+    "success": false,
+    "message": "User not found"
   }
   ```
 
-#### PUT /users/{id}
-- Description: Update a specific user
-- Path Parameters:
-  - `id`: User ID
-- Request Body:
-  ```json
-  {
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
-      }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
-  }
-  ```
-- Response: 
-  ```json
-  {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
-      }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
-  }
-  ```
+---
 
-#### DELETE /users/{id}
-- Description: Delete a specific user
-- Path Parameters:
-  - `id`: User ID
-- Response: 
-  ```json
-  {
-    "id": "integer",
-    "email": "string",
-    "username": "string",
-    "password": "string",
-    "name": {
-      "firstname": "string",
-      "lastname": "string"
-    },
-    "address": {
-      "city": "string",
-      "street": "string",
-      "number": "integer",
-      "zipcode": "string",
-      "geolocation": {
-        "lat": "string",
-        "long": "string"
-      }
-    },
-    "phone": "string",
-    "status": "string (enum: Active, Inactive, Suspended)",
-    "role": "string (enum: Customer, Manager, Admin)"
-  }
-  ```
 <br/>
 <div style="display: flex; justify-content: space-between;">
-  <a href="./carts-api.md">Previous: Carts API</a>
-  <a href="./auth-api.md">Next: Auth API</a>
+  <a href="./auth-api.md">Previous: Authentication API</a>
+  <a href="./project-structure.md">Next: Project Structure</a>
 </div>
