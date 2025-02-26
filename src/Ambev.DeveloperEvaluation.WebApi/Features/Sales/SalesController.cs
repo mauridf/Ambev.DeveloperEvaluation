@@ -11,6 +11,9 @@ using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.GetAllSales;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using GetSaleResponse = Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSale.GetSaleResponse;
+using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
+using UpdateSaleResponse = Ambev.DeveloperEvaluation.Application.Sales.UpdateSale.UpdateSaleResponse;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales;
 
@@ -143,4 +146,31 @@ public class SalesController : BaseController
             Message = "Sale deleted successfully"
         });
     }
+
+    [HttpPut("{id}")]
+    [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+    {
+        // Atribuindo o ID da venda da rota para o request
+        request.Id = id;
+
+        var validator = new UpdateSaleRequestValidator();
+        var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        if (!validationResult.IsValid)
+            return BadRequest(validationResult.Errors);
+
+        var command = _mapper.Map<UpdateSaleCommand>(request);
+        var response = await _mediator.Send(command, cancellationToken);
+
+        return Ok(new ApiResponseWithData<UpdateSaleResponse>
+        {
+            Success = true,
+            Message = "Sale updated successfully",
+            Data = response
+        });
+    }
+
 }
