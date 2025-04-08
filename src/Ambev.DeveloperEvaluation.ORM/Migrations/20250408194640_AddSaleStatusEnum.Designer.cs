@@ -3,6 +3,7 @@ using System;
 using Ambev.DeveloperEvaluation.ORM;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ambev.DeveloperEvaluation.ORM.Migrations
 {
     [DbContext(typeof(DefaultContext))]
-    partial class DefaultContextModelSnapshot : ModelSnapshot
+    [Migration("20250408194640_AddSaleStatusEnum")]
+    partial class AddSaleStatusEnum
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -64,6 +67,12 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric");
+
+                    b.Property<bool>("IsCancelled")
+                        .HasColumnType("boolean");
+
+                    b.Property<decimal>("Total")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");

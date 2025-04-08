@@ -3,11 +3,16 @@ using Ambev.DeveloperEvaluation.Common.HealthChecks;
 using Ambev.DeveloperEvaluation.Common.Logging;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Common.Validation;
+using Ambev.DeveloperEvaluation.Domain.Events;
+using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.IoC;
 using Ambev.DeveloperEvaluation.ORM;
+using Ambev.DeveloperEvaluation.ORM.Events;
+using Ambev.DeveloperEvaluation.WebApi.Mappings;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
@@ -36,6 +41,12 @@ public class Program
                 )
             );
 
+            builder.Services.AddScoped<DomainEventDispatcher>();
+
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddAutoMapper(typeof(CreateSaleRequestProfile).Assembly);
+
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
             builder.RegisterDependencies();
@@ -46,7 +57,8 @@ public class Program
             {
                 cfg.RegisterServicesFromAssemblies(
                     typeof(ApplicationLayer).Assembly,
-                    typeof(Program).Assembly
+                    typeof(Program).Assembly,
+                    typeof(SaleCreatedEvent).Assembly
                 );
             });
 

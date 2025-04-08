@@ -79,6 +79,11 @@ public class User : BaseEntity, IUser
     string IUser.Role => Role.ToString();
 
     /// <summary>
+    /// Gets Sales Collection.
+    /// </summary>
+    public virtual ICollection<Sale> Sales { get; set; } = new List<Sale>();
+
+    /// <summary>
     /// Initializes a new instance of the User class.
     /// </summary>
     public User()
