@@ -33,6 +33,26 @@ public class Sale : IHasDomainEvents
         if (Status == SaleStatus.Cancelled)
             throw new InvalidOperationException("Cannot add item to a cancelled sale.");
 
+        if (quantity < 1)
+            throw new InvalidOperationException("Quantity must be greater than zero.");
+
+        if (quantity < 4)
+        {
+            // No discount
+        }
+        else if (quantity >= 4 && quantity < 10)
+        {
+            unitPrice *= 0.9m; // 10% discount
+        }
+        else if (quantity >= 10 && quantity <= 20)
+        {
+            unitPrice *= 0.8m; // 20% discount
+        }
+        else
+        {
+            throw new InvalidOperationException("Cannot sell more than 20 identical items.");
+        }
+
         var item = new SaleItem
         {
             SaleId = Id,
