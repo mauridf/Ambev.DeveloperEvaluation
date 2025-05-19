@@ -2,9 +2,12 @@
 using Ambev.DeveloperEvaluation.Application.Sales.CancelItem;
 using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.GetAllSales;
+using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Events;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +30,10 @@ public class ApplicationModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<INotificationHandler<SaleModifiedEvent>, SaleEventsHandler>();
         builder.Services.AddScoped<INotificationHandler<SaleCancelledEvent>, SaleEventsHandler>();
         builder.Services.AddScoped<INotificationHandler<ItemCancelledEvent>, SaleEventsHandler>();
+
+        builder.Services.AddScoped<IRequestHandler<GetSaleCommand, GetSaleResult>, GetSaleHandler>();
+        builder.Services.AddScoped<IRequestHandler<GetAllSalesCommand, GetAllSalesResult>, GetAllSalesHandler>();
+        builder.Services.AddScoped<AbstractValidator<GetSaleCommand>, GetSaleValidator>();
 
         // AutoMapper Profiles
         builder.Services.AddAutoMapper(typeof(CreateSaleProfile));
