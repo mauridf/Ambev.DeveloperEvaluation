@@ -107,9 +107,11 @@ dotnet test --collect:"XPlat Code Coverage"
 │   ├── WebApi/         # Controllers e endpoints
 │   ├── ORM/            # Configurações do banco de dados
 │   └── Common/         # Utilitários compartilhados
+│   └── IoC/            # Configuração de injeção de dependência (Dependency Injection)
 ├── tests/
 │   ├── Unit/           # Testes unitários
 │   └── Integration/    # Testes de integração
+│   └── Funcional/      # Testes funcionais de ponta a ponta (end-to-end)
 ```
 
 ---
