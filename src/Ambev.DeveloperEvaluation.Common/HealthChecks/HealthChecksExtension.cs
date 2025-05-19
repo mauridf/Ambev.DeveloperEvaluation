@@ -44,7 +44,8 @@ public static class HealthChecksExtension
     {
         builder.Services.AddHealthChecks()
             .AddCheck("Liveness", () => HealthCheckResult.Healthy(), tags: ["liveness"])
-            .AddCheck("Readiness", () => HealthCheckResult.Healthy(), tags: ["readiness"]);
+            .AddCheck("Readiness", () => HealthCheckResult.Healthy(), tags: ["readiness"])
+            .AddCheck<PostgreSqlHealthCheck>("PostgreSQL", tags: new[] { "database", "sql" });
     }
 
     /// <summary>
