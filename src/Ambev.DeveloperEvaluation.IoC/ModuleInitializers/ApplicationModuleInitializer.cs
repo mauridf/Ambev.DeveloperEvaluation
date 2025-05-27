@@ -7,6 +7,7 @@ using Ambev.DeveloperEvaluation.Application.Sales.GetSale;
 using Ambev.DeveloperEvaluation.Application.Sales.UpdateSale;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Events;
+using Ambev.DeveloperEvaluation.Domain.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,8 @@ public class ApplicationModuleInitializer : IModuleInitializer
         builder.Services.AddScoped<IRequestHandler<GetSaleCommand, GetSaleResult>, GetSaleHandler>();
         builder.Services.AddScoped<IRequestHandler<GetAllSalesCommand, GetAllSalesResult>, GetAllSalesHandler>();
         builder.Services.AddScoped<AbstractValidator<GetSaleCommand>, GetSaleValidator>();
+
+        builder.Services.AddScoped<ISaleService, SaleService>();
 
         // AutoMapper Profiles
         builder.Services.AddAutoMapper(typeof(CreateSaleProfile));
